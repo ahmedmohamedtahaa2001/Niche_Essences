@@ -1,0 +1,227 @@
+{% liquid
+  assign enable_rtl = settings.rtl
+  assign iso_code = request.locale.iso_code
+  assign lis_language_rtl = settings.language_rtl
+  if lis_language_rtl != blank
+    if lis_language_rtl contains iso_code
+      assign enable_rtl = true
+    else
+      assign enable_rtl = false
+    endif
+  endif
+%}
+
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <link rel="canonical" href="{{ canonical_url }}">
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+    {% render 'meta-tags' %}
+    {{ content_for_header }}
+    {{ 'critical.css' | asset_url | stylesheet_tag }}
+    {% if settings.scroll_animation != 'none' %}
+      {{ 'animation.css' | asset_url | stylesheet_tag }}
+    {%- endif %}
+    {% if enable_rtl %}{{ 'rtl.css' | asset_url | stylesheet_tag: preload: true }}{% endif %}
+    {{ 'product-card.css' | asset_url | stylesheet_tag }}
+    {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+    {{ 'judgeme-reviews.css' | asset_url | stylesheet_tag }}
+    {% render 'font-variables' %}
+    {% if request.design_mode %}
+      {{ 'design-mode.css' | asset_url | stylesheet_tag: preload: true }}
+    {% endif %}
+    {% style %}
+      {% for scheme in settings.color_schemes -%}
+        {% # theme-check-disable UndefinedObject %}
+        {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
+        {% # theme-check-disable UndefinedObject %}
+        {% if forloop.index == 1 -%}
+          :root,
+        {%- endif %}
+        .color-{{ scheme.id }} {
+          --color-background: {{ scheme.settings.background }};
+          {% if scheme.settings.background_gradient != empty %}
+          --gradient-background: {{ scheme.settings.background_gradient }};
+          {% else %}
+          --gradient-background: {{ scheme.settings.background }};
+          {% endif %}
+          --color-primary: {{ scheme.settings.primary_color }};
+          --color-primary-rgb: {{ scheme.settings.primary_color.red }}, {{ scheme.settings.primary_color.green }}, {{ scheme.settings.primary_color.blue }};
+          --color-text: {{ scheme.settings.text_color }};
+          --color-text-rgb: {{ scheme.settings.text_color.red }}, {{ scheme.settings.text_color.green }}, {{ scheme.settings.text_color.blue }};
+          --color-heading: {{ scheme.settings.heading_color }};
+          --color-heading-rgb:{{ scheme.settings.heading_color.red }}, {{ scheme.settings.heading_color.green }}, {{ scheme.settings.heading_color.blue }};
+          --color-link: {{ scheme.settings.text_color }};
+          --color-link-hover: {{ scheme.settings.primary_color }};
+          --color-border: {{ scheme.settings.border_color }};
+          /* Button primary */
+          --btn-primary-color: {{ scheme.settings.btn_primary_color }};
+          --btn-primary-hover-color: {{ scheme.settings.btn_primary_hover_color }};
+          --btn-primary-bg-color: {{ scheme.settings.btn_primary_background }};
+          {% if scheme.settings.btn_primary_gradient != blank %}
+            --btn-primary-bg-graident-color: {{ scheme.settings.btn_primary_gradient }};
+          {% else %}
+            --btn-primary-bg-graident-color: {{ scheme.settings.btn_primary_background }};
+          {% endif %}
+          --btn-primary-hover-bg-color: {{ scheme.settings.btn_primary_hover_background }};
+          {% if scheme.settings.btn_primary_hover_background_gradient != blank %}
+            --btn-primary-hover-bg-color-graident: {{ scheme.settings.btn_primary_hover_background_gradient }};
+          {% else %}
+            --btn-primary-hover-bg-color-graident: {{ scheme.settings.btn_primary_hover_background }};
+          {% endif %}
+          /* Button outline */
+          --btn-outline-color: {{ scheme.settings.btn_outline_color }};
+          --btn-outline-border-color: {{ scheme.settings.btn_outline_border_color }};
+          /* Button link */
+          --btn-link-color: {{ scheme.settings.button_link_color }};
+          --btn-link-hover-color: {{ scheme.settings.button_link_hover_color }};
+          --input-color: var(--color-text);
+          --input-placeholder-color: rgba(var(--color-heading-rgb), 0.55);
+          --input-bg: rgba({{ scheme.settings.background.red }}, {{ scheme.settings.background.green }}, {{ scheme.settings.background.blue }}, 0.6);
+        }
+      {% endfor %}
+      {{ scheme_classes | prepend: 'body' }} {
+        color: var(--color-text);
+        background-color: var(--color-background);
+      }
+      :root {
+        --border-color-base: #e5e5e5;
+        --light-grey-color: #f5f5f5;
+        {% if settings.enable_rounded %} --rounded-radius: {{ settings.rounded_corner }}px;{% endif %}
+        --logo-width: {{ settings.mobile_logo_width }}px;
+        --body-font-size: {{ settings.body_font_size }}px;
+        --body-line-height: 1.714;
+        --body-weight: {{ settings.body_font_weight }};
+        --heading-font-scale: {{ settings.heading_font_scale | divided_by: 100.0 }};
+        --heading-text-transform: {{ settings.heading_text_transform }};
+        --heading-letter-spacing: {% if settings.heading_letter_spacing == 'negative' %}-0.034em{% else %}{{ settings.heading_letter_spacing }}{% endif %};
+        --heading-weight: {{ settings.heading_font_weight }};
+        --subheading-weight: {{ settings.subheading_font_weight }};
+        --medium-font-weight: {% if settings.menu_font == 'body_font' %}{{ settings.body_font.family }}{% else %}{{ settings.heading_font.family }}{% endif %}, {{ settings.body_font.fallback_families }};
+        --btn-text-transform: {{ settings.btn_text_transform }};
+        --btn-radius: {{ settings.button_radius }}px;
+        --btn-font-size: var(--body-font-size, 1.4rem);
+        --btn-padding-y: 1.5rem;
+        --btn-padding-x: 3rem;
+        --btn-letter-spacing:  {% if settings.heading_letter_spacing == 'negative' %}calc(var(--heading-letter-spacing) + 0.01em){% else %}calc(var(--heading-letter-spacing) - 0.01em){% endif %};
+        --input-height: 5rem;
+        {% if settings.rounded_corner > 1 %}
+        --input-padding: 1rem 2rem;
+        {% else %}
+        --input-padding: 1rem 1.5rem;
+        {% endif %}
+        --inputs-border-width: 1px;
+        --input-color: var(--color-text);
+        --input-border-radius: var(--btn-radius);
+        --input-font-size:  {% if settings.body_font_size < 16 %}16px{% else %}{{ settings.body_font_size }}{% endif %}  ;
+        --input-placeholder-color: rgba(var(--color-heading-rgb), 0.6);
+        --page-width: {{ settings.page_width }}px;
+        --page-width-value: {{ settings.page_width }};
+        --fluid-container-width: {{ settings.fluid_container_width }}px;
+        --fluid-container-width-value: {{ settings.fluid_container_width }}px;
+        --color-white: #FFF;
+        --color-dark: #111;
+        --h0-size: calc(var(--heading-font-scale) * 4.8rem);
+        --h1-size: calc(var(--heading-font-scale) * 4rem);
+        --h2-size: calc(var(--heading-font-scale) * 3.6rem);
+        --h3-size: calc(var(--heading-font-scale) * 3rem);
+        --h4-size:  calc(var(--heading-font-scale) * 2.4rem);
+        --h5-size: calc(var(--heading-font-scale) * 1.8rem);
+        --h6-size: calc(var(--heading-font-scale) * 1.6rem);
+        --transition: 0.4s cubic-bezier(.3, 1, .3, 1);
+        --duration-short: 0.3s;
+        --duration-long: 0.5s;
+        --transition-popup: transform .6s cubic-bezier(.7,0,.2,1);
+        --zoom-transform: scale(1.05);
+        --overlay-bg: rgba(0, 0, 0, 0.50);
+        --grey-color: #f5f5f5;
+        --section-spacing: {{ settings.space_mobile }}px;
+        --bs-gutter-x: 1.5rem;
+        --shadow: 5px 0px 30px 0px rgba(0, 0, 0, 0.08);
+        /* Badge color */
+        --bages-radius: {{ settings.badges_rounded_corner }}px;
+        --bages-sale-color: {{ settings.sale_color }};
+        --bages-sale-bg-color: {{ settings.sale_background }};
+        --bages-new-color: {{ settings.new_color }};
+        --bages-new-bg-color: {{ settings.new_background }};
+        --bages-pre-order-color: {{ settings.pre_order_color }};
+        --bages-pre-order-bg-color: {{ settings.pre_order_background }};
+        --bages-sold-out-color: {{ settings.sold_out_color }};
+        --bages-sold-out-bg-color: {{ settings.sold_out_background }};
+        --bages-custom-color: {{ settings.custom_badge_color }};
+        --bages-custom-bg-color: {{ settings.custom_badge_background }};
+        --responsive-rate: ((100vw - 575px) / (1600 - 575));
+      }
+      @media (min-width: 768px) {
+        :root{
+          --section-spacing: {{ settings.spacing_desktop }}px;
+          --logo-width: {{ settings.logo_width }}px;
+          --btn-padding-y: 1.5rem;
+           --btn-padding-x: 5.5rem;
+           --input-font-size: calc(var(--body-font-size) - 1px);
+        }
+      }
+      @media (max-width: 1024.5px) {
+        :root {
+          --transition-popup: transform .35s cubic-bezier(.7,0,.2,1);
+        }
+      }
+    {% endstyle %}
+    {{ 'niche-tokens.css' | asset_url | stylesheet_tag }}
+    <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="{{ 'theme.css' | asset_url }}"></noscript>
+    <link rel="stylesheet" href="{{ 'popup.css' | asset_url }}" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="{{ 'popup.css' | asset_url }}"></noscript>
+    {{ 'niche-design-system.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'motion.min.js' | asset_url }}" type="module" defer="defer"></script>
+    <script src="{{ 'utils.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+    <script>
+      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+      if (Shopify.designMode) {
+        document.documentElement.classList.add('shopify-design-mode');
+      }
+    </script>
+  </head>
+  <body
+    class="gradient niche-design-system{% if settings.rounded_corner > 1 and settings.enable_rounded %} rounded-style{% endif %}{% if settings.action_after_add_cart == 'show_popup' %} minicart_type-popup{% endif %}{% if enable_rtl %} rtl{% endif %} {% if request.page_type == 'cart'%}template-cart{% endif %} {{ request.page_type }}"
+  >
+    {%- liquid
+      render 'preload-page'
+      sections 'header-group'
+    -%}
+
+    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+    {% sections 'footer-group' %}
+    {%- liquid
+      sections 'overlay-group'
+      section 'mobile-navigation-bar'
+      section 'product-quickview'
+      section 'custom-colors'
+      section 'fake-order'
+    -%}
+    {% section 'top-search' %}
+    {%- render 'minicart' -%}
+    {%- render 'scripts-tag' -%}
+    {%- render 'sprite-svg' -%}
+    {%- render 'content-bottom' -%}
+  </body>
+</html>

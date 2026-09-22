@@ -1,0 +1,218 @@
+/* Niche Essences global design system: obsidian, gold, depth, and accessible motion. */
+
+:root {
+  --ne-ink-950: #0c0d0e;
+  --ne-ink-900: #141618;
+  --ne-ink-800: #1c1e21;
+  --ne-ink-700: #25282c;
+  --ne-gold-050: #fff9e6;
+  --ne-gold-100: #faecc7;
+  --ne-gold-200: #eed58c;
+  --ne-gold-300: #d9a62e;
+  --ne-gold-400: #b8860b;
+  --ne-gold-600: #8c6507;
+  --ne-ivory-050: #ffffff;
+  --ne-ivory-100: #f5f4f0;
+  --ne-mist-200: #d1d5db;
+  --ne-mist-300: #9ca3af;
+  --ne-mist-400: #6b7280;
+  --ne-border-dark: rgb(255 255 255 / 8%);
+  --ne-border-gold: rgb(217 166 46 / 35%);
+  --ne-font-display: "Plus Jakarta Sans", "Instrument Sans", sans-serif;
+  --ne-font-ui: "Inter", "Instrument Sans", sans-serif;
+  --ne-duration-fast: 0.2s;
+  --ne-duration-base: 0.4s;
+  --ne-duration-slow: 0.7s;
+  --ne-ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ne-ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --depth-0-factor: 0.1;
+  --depth-1-factor: 0.25;
+  --depth-2-factor: 0.5;
+  --depth-3-factor: 0.8;
+  --depth-4-factor: 1;
+  --depth-5-factor: 1.2;
+  --scroll-y: 0;
+}
+
+body.niche-design-system {
+  --color-background: var(--ne-ink-950);
+  --color-text: var(--ne-ivory-100);
+  --color-heading: var(--ne-ivory-050);
+  --color-primary: var(--ne-gold-300);
+  --color-link: var(--ne-ivory-100);
+  --color-link-hover: var(--ne-gold-200);
+  --color-border: var(--ne-border-dark);
+  --color-white: var(--ne-ivory-050);
+  --color-dark: var(--ne-ink-950);
+  --grey-color: var(--ne-ink-800);
+  --btn-radius: 999px;
+  --body-font: var(--ne-font-ui);
+  --heading-font: var(--ne-font-display);
+  --menu-font: var(--ne-font-ui);
+  --btn-font: var(--ne-font-ui);
+  background: var(--ne-ink-950);
+  color: var(--ne-ivory-100);
+  font-family: var(--ne-font-ui);
+  text-rendering: optimizeLegibility;
+}
+
+body.niche-design-system :where(h1, h2, h3, h4, h5, h6, .h0, .h1, .h2, .h3, .h4, .h5, .h6, .heading) {
+  color: var(--ne-ivory-050);
+  font-family: var(--ne-font-display);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.1;
+}
+
+body.niche-design-system :where(p, li, label, summary, .rte, .section-description) {
+  color: var(--ne-mist-200);
+  font-family: var(--ne-font-ui);
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+body.niche-design-system :where(a:not(.btn):not(.button)) {
+  color: var(--ne-ivory-100);
+  transition: color var(--ne-duration-fast) var(--ne-ease-standard);
+}
+
+body.niche-design-system :where(a:not(.btn):not(.button):hover) {
+  color: var(--ne-gold-200);
+}
+
+body.niche-design-system :where(button, .btn, .button, input[type="submit"]) {
+  border-radius: var(--ne-radius-pill, 999px);
+  font-family: var(--ne-font-ui);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background-color var(--ne-duration-base) var(--ne-ease-standard),
+    border-color var(--ne-duration-base) var(--ne-ease-standard),
+    box-shadow var(--ne-duration-base) var(--ne-ease-standard),
+    color var(--ne-duration-base) var(--ne-ease-standard),
+    transform var(--ne-duration-base) var(--ne-ease-standard);
+}
+
+body.niche-design-system :where(button:hover, .btn:hover, .button:hover, input[type="submit"]:hover) {
+  box-shadow: 0 0 24px rgb(217 166 46 / 25%);
+  transform: translateY(-2px);
+}
+
+body.niche-design-system :where(input, select, textarea, .input-style) {
+  background: var(--ne-ink-900);
+  border-color: var(--ne-border-dark);
+  border-radius: var(--ne-radius-sm, 6px);
+  color: var(--ne-ivory-100);
+}
+
+body.niche-design-system :where(input, select, textarea, .input-style)::placeholder {
+  color: var(--ne-mist-300);
+}
+
+body.niche-design-system :where(input, select, textarea, .input-style):focus {
+  border-color: var(--ne-gold-300);
+  box-shadow: 0 0 0 3px rgb(217 166 46 / 18%);
+  outline: none;
+}
+
+body.niche-design-system :where(.gradient, .bg-white, .grey-bg, .color-background-1, .color-background-2) {
+  background-color: var(--ne-ink-950);
+  background-image: none;
+}
+
+body.niche-design-system :where(.bg-dark, .color-inverse) {
+  background-color: var(--ne-ink-900);
+}
+
+body.niche-design-system :where(.product-item__inner, .product-card, .product-item__wrapper) {
+  background: var(--ne-ink-900);
+  border: 1px solid var(--ne-border-dark);
+  border-radius: var(--ne-radius-md, 12px);
+  box-shadow: 0 20px 50px rgb(0 0 0 / 28%);
+  transition: border-color var(--ne-duration-base) var(--ne-ease-standard),
+    box-shadow var(--ne-duration-base) var(--ne-ease-standard),
+    transform var(--ne-duration-base) var(--ne-ease-standard);
+}
+
+body.niche-design-system :where(.product-item__inner:hover, .product-card:hover, .product-item__wrapper:hover) {
+  border-color: var(--ne-border-gold);
+  box-shadow: 0 24px 60px rgb(0 0 0 / 48%), 0 0 32px rgb(217 166 46 / 16%);
+  transform: translateY(-4px);
+}
+
+body.niche-design-system :where(.product-item__title, .product-title, .card__heading) {
+  color: var(--ne-ivory-050);
+  font-family: var(--ne-font-display);
+  font-weight: 700;
+}
+
+body.niche-design-system :where(.price, .price-regular, .product-item__price) {
+  color: var(--ne-gold-200);
+  font-family: var(--ne-font-ui);
+  font-weight: 700;
+}
+
+body.niche-design-system :where(.product__badges-inner, .badge, .product-badge) {
+  background: var(--ne-ink-900);
+  border: 1px solid var(--ne-border-gold);
+  border-radius: var(--ne-radius-pill, 999px);
+  color: var(--ne-gold-300);
+  font-family: var(--ne-font-ui);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+body.niche-design-system :where(.header, .header-wrapper, .site-header, .announcement-bar) {
+  background-color: rgb(12 13 14 / 92%);
+  border-color: var(--ne-border-dark);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+body.niche-design-system :where(.section-inner-wrapper, .section-inner, .container) {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body.niche-design-system :where(.shopify-section:not(:first-child)) {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 720px;
+}
+
+/* Shared depth utilities for sections that opt into data-depth layers. */
+body.niche-design-system [data-depth] {
+  transform: translateY(calc(var(--scroll-y) * var(--depth-factor, 0) * -1px));
+  transition: transform var(--ne-duration-slow) var(--ne-ease-smooth);
+}
+body.niche-design-system [data-depth="0"] { --depth-factor: var(--depth-0-factor); filter: blur(8px); z-index: 0; }
+body.niche-design-system [data-depth="1"] { --depth-factor: var(--depth-1-factor); filter: blur(4px); z-index: 1; }
+body.niche-design-system [data-depth="2"] { --depth-factor: var(--depth-2-factor); z-index: 2; }
+body.niche-design-system [data-depth="3"] { --depth-factor: var(--depth-3-factor); filter: drop-shadow(0 30px 60px rgb(0 0 0 / 40%)); z-index: 3; }
+body.niche-design-system [data-depth="4"] { --depth-factor: var(--depth-4-factor); z-index: 4; }
+body.niche-design-system [data-depth="5"] { --depth-factor: var(--depth-5-factor); z-index: 5; }
+
+:focus-visible {
+  outline: 3px solid var(--ne-gold-200);
+  outline-offset: 3px;
+}
+
+@media (pointer: coarse) {
+  body.niche-design-system [data-depth] { transform: none; }
+  body.niche-design-system :where(.product-item__inner:hover, .product-card:hover, .product-item__wrapper:hover) { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.niche-design-system *,
+  body.niche-design-system *::before,
+  body.niche-design-system *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+  body.niche-design-system [data-depth] {
+    filter: none !important;
+    transform: none !important;
+  }
+}

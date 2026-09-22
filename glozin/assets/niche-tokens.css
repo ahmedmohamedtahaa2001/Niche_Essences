@@ -1,0 +1,138 @@
+:root {
+  /* Core */
+  --ne-ink-950: #0c0d0e;
+  --ne-ink-900: #141618;
+  --ne-ink-850: #1c1e21;
+  --ne-ink-800: #1c1e21;
+  --ne-ink-700: #25282c;
+  --ne-ink-600: #39434d;
+  --ne-mist-300: #9ca3af;
+  --ne-mist-200: #d1d5db;
+  --ne-ivory-100: #f5f4f0;
+  --ne-ivory-050: #ffffff;
+
+  /* Niche Gold */
+  --ne-gold-050: #fff9e6;
+  --ne-gold-100: #faecc7;
+  --ne-gold-200: #eed58c;
+  --ne-gold-300: #d9a62e;
+  --ne-gold-400: #b8860b;
+  --ne-gold-500: #b8860b;
+  --ne-gold-600: #8c6507;
+  --ne-gold-700: #5c3b05;
+
+  /* Campaign accents */
+  --ne-magenta-100: #ffd0e8;
+  --ne-magenta-300: #ff9dcd;
+  --ne-magenta-500: #e2257e;
+  --ne-magenta-700: #780a3e;
+  --ne-violet-100: #ded0ff;
+  --ne-violet-300: #9767ff;
+  --ne-violet-500: #7040e8;
+  --ne-violet-700: #321673;
+  --ne-ember-100: #ffd4c3;
+  --ne-ember-300: #ffa17d;
+  --ne-ember-500: #d94620;
+  --ne-ember-700: #6c1b0b;
+  --ne-aqua-100: #b7f8f2;
+  --ne-aqua-300: #65e5da;
+  --ne-aqua-500: #07968e;
+  --ne-aqua-700: #034845;
+  --ne-botanical-100: #d3edbf;
+  --ne-botanical-300: #9fd47b;
+  --ne-botanical-500: #41872a;
+  --ne-botanical-700: #193c10;
+
+  /* Semantic */
+  --ne-success-bg: #eaf8ee;
+  --ne-success-text: #176b37;
+  --ne-warning-bg: #fff5d8;
+  --ne-warning-text: #795400;
+  --ne-error-bg: #fff0ef;
+  --ne-error-text: #a52a24;
+  --ne-info-bg: #eaf5ff;
+  --ne-info-text: #155d91;
+
+  /* Gradients */
+  --ne-gradient-midnight-gold: linear-gradient(135deg, #050709 0%, #16130c 48%, #d9a62e 130%);
+  --ne-gradient-amber-shelf: linear-gradient(90deg, transparent, #8a5c09 18%, #f6d98a 50%, #8a5c09 82%, transparent);
+  --ne-gradient-velvet-vice: linear-gradient(135deg, #321673 0%, #b81160 52%, #f76a3c 118%);
+  --ne-gradient-electric-night: linear-gradient(145deg, #050709 15%, #321673 60%, #07968e 120%);
+  --ne-gradient-smoke-glass: linear-gradient(180deg, rgb(255 255 255 / 8%), rgb(255 255 255 / 1.5%));
+  --ne-gradient-ivory-heat: linear-gradient(135deg, #fffdf8 0%, #f6f0e6 70%, #fcebc0 130%);
+
+  /* Type */
+  --ne-font-display-latin: "Plus Jakarta Sans", "Instrument Sans", sans-serif;
+  --ne-font-display-arabic: "Noto Kufi Arabic", sans-serif;
+  --ne-font-ui-latin: "Inter", "Instrument Sans", sans-serif;
+  --ne-font-ui-arabic: "Alexandria", Arial, sans-serif;
+  --ne-text-display-xl: clamp(2.5rem, 5vw, 3.75rem);
+  --ne-text-display-lg: clamp(2.25rem, 4vw, 3rem);
+  --ne-text-display-md: clamp(2rem, 3vw, 2.5rem);
+  --ne-text-h1: clamp(2rem, 3vw, 2.5rem);
+  --ne-text-h2: clamp(1.75rem, 2.4vw, 2rem);
+  --ne-text-h3: clamp(1.45rem, 2.4vw, 1.9rem);
+  --ne-text-body-lg: 1.1rem;
+  --ne-text-body: 1rem;
+  --ne-text-body-sm: 0.875rem;
+  --ne-text-label: 0.75rem;
+
+  /* Spacing */
+  --ne-space-1: 0.25rem;
+  --ne-space-2: 0.5rem;
+  --ne-space-3: 0.75rem;
+  --ne-space-4: 1rem;
+  --ne-space-5: 1.25rem;
+  --ne-space-6: 1.5rem;
+  --ne-space-8: 2rem;
+  --ne-space-10: 2.5rem;
+  --ne-space-12: 3rem;
+  --ne-space-16: 4rem;
+  --ne-space-20: 5rem;
+  --ne-space-24: 6rem;
+  --ne-space-32: 8rem;
+
+  /* Shape and elevation */
+  --ne-radius-sm: 6px;
+  --ne-radius-md: 12px;
+  --ne-radius-lg: 18px;
+  --ne-radius-pill: 999px;
+  --ne-border-dark: 1px solid rgb(255 255 255 / 12%);
+  --ne-shadow-card: 0 20px 50px rgb(0 0 0 / 28%);
+  --ne-shadow-gold: 0 0 32px rgb(217 166 46 / 24%);
+  --ne-focus: 0 0 0 2px var(--ne-ink-900), 0 0 0 4px var(--ne-gold-200);
+
+  /* Motion */
+  --ne-ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ne-duration-fast: 0.2s;
+  --ne-duration-base: 0.4s;
+  --ne-duration-slow: 0.7s;
+}
+
+:root {
+  --ne-border-dark-color: rgb(255 255 255 / 8%);
+  --ne-border-gold-color: rgb(217 166 46 / 35%);
+  --ne-ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[dir="rtl"] {
+  --ne-font-display: var(--ne-font-display-arabic);
+  --ne-font-ui: var(--ne-font-ui-arabic);
+}
+
+[dir="ltr"] {
+  --ne-font-display: var(--ne-font-display-latin);
+  --ne-font-ui: var(--ne-font-ui-latin);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+

@@ -1,0 +1,36 @@
+{%- liquid
+  assign t = template | split: '.' | first
+  assign admin_vi = request.design_mode
+  assign _s = shop.permanent_domain | append: "GlzSalt25" | sha256 | slice: 0, 16
+  assign _b = shop.email | base64_encode
+  assign hmac = shop.email | hmac_sha256: _s
+  assign encoded_ = _b | append: ":" | append: hmac | base64_encode
+-%}
+{% if settings.scroll_animation != 'none' %}
+  <script src="{{ 'animation.js' | asset_url }}" defer="defer"></script>
+{%- endif %}
+<script src="{{ 'tingle.min.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'theme.js' | asset_url }}"  defer="defer" type="module"></script>
+<script src="{{ 'niche-design-system.js' | asset_url }}" defer="defer"></script>
+{%- case t -%}
+  {%- when 'collection' -%}
+    <script src="{{ 'collection.js' | asset_url }}" defer="defer"></script>
+  {%- when 'product' -%}
+    <script src="{{ 'main-product.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'js-cloudimage-360-view.min.js' | asset_url }}" defer="defer"></script>
+  {%- when 'search' -%}
+    <script src="{{ 'collection.js' | asset_url }}" defer="defer"></script>
+{%- endcase -%}
+<script defer="defer">
+  var glozin_app = {
+  shop: '{{ shop.permanent_domain }}',
+  domain: '{{ shop.domain }}',
+  {%- if admin_vi == true -%}
+    lic: '{{ settings.purchase_code }}',
+    action: '{{ settings.purchase_code_action }}',
+    _e: '{{ encoded_ }}',
+    _s: '{{ salt }}',
+  {%- endif -%}
+  mode: '{%- if admin_vi == true -%}admin{% else %}front{%- endif -%}',
+  };
+</script>
