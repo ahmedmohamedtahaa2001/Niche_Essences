@@ -231,6 +231,8 @@ def main() -> None:
         for member in members:
             all_relations[member].add(f"niche:bundle:{bundle_handle}")
             all_relations[member].add("niche:bundle-role:member")
+    for handle, siblings in model["sibling_handles"].items():
+        all_relations[handle].update(f"niche:sibling:{sibling}" for sibling in siblings)
 
     update_mutation = """
     mutation UpdateRecommendationTags($product: ProductUpdateInput!) {
@@ -262,6 +264,7 @@ def main() -> None:
         metafields = [
             {"ownerId": product["id"], "namespace": "custom", "key": "bundle_handles", "type": "list.single_line_text_field", "value": json.dumps(bundle_handles)},
             {"ownerId": product["id"], "namespace": "custom", "key": "bundle_member_handles", "type": "list.single_line_text_field", "value": json.dumps(member_handles)},
+            {"ownerId": product["id"], "namespace": "custom", "key": "sibling_handles", "type": "list.single_line_text_field", "value": json.dumps(sorted(model["sibling_handles"].get(handle, set())))},
             {"ownerId": product["id"], "namespace": "custom", "key": "tester_handles", "type": "list.single_line_text_field", "value": json.dumps(model["tester_handles"].get(handle, []))},
             {"ownerId": product["id"], "namespace": "custom", "key": "recommendation_handles", "type": "list.single_line_text_field", "value": json.dumps(model["recommendation_handles"].get(handle, []))},
             {"ownerId": product["id"], "namespace": "custom", "key": "recommendation_algorithm", "type": "single_line_text_field", "value": "tag-similarity-v1"},
