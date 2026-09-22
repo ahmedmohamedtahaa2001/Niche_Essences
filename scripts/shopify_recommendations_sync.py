@@ -21,6 +21,14 @@ ROOT = Path(__file__).resolve().parents[1]
 REPORT_PATH = ROOT / "reports" / "recommendation-relations-v1.json"
 RELATION_PREFIXES = ("niche:bundle:", "niche:bundle-role:", "niche:sibling:")
 PROMO_ONLY = ("buy ", "complimentary", "build your")
+METAFIELD_DEFINITIONS = (
+    ("bundle_handles", "Bundles containing this product", "Product handles for bundles that contain this fragrance.", "list.single_line_text_field"),
+    ("bundle_member_handles", "Bundle member products", "Product handles included in this bundle.", "list.single_line_text_field"),
+    ("sibling_handles", "Sibling perfumes", "Product handles of perfumes in the same bundle.", "list.single_line_text_field"),
+    ("tester_handles", "Tester products", "Product handles for relevant 5 ml testers.", "list.single_line_text_field"),
+    ("recommendation_handles", "Recommended perfumes", "Top product handles scored by the fragrance similarity model.", "list.single_line_text_field"),
+    ("recommendation_algorithm", "Recommendation algorithm", "Algorithm version used to generate recommendations.", "single_line_text_field"),
+)
 
 
 def plain(value: str) -> str:
@@ -78,6 +86,39 @@ def load_taxonomy() -> dict[str, dict[str, set[str]]]:
                 "occasions": set(filter(None, row["occasions"].split(", "))),
             }
     return result
+
+
+def ensure_metafield_definitions(admin: ShopifyAdmin) -> None:
+        query = """
+        query ProductMetafieldDefinitions {
+            metafieldDefinitions(first: 100, ownerType: PRODUCT, namespace: "custom") {
+                nodes { key }
+            }
+        }
+        """
+        existing = {node["key"] for node in admin.graphql(query)["metafieldDefinitions"]["nodes"]}
+        mutation = """
+        mutation CreateProductMetafieldDefinition($definition: MetafieldDefinitionInput!) {
+            metafieldDefinitionCreate(definition: $definition) {
+                createdDefinition { key }
+                userErrors { field message code }
+            }
+        }
+        """
+        for key, name, description, type_name in METAFIELD_DEFINITIONS:
+                if key in existing:
+                        continue
+                result = admin.graphql(mutation, {"definition": {
+                        "name": name,
+                        "namespace": "custom",
+                        "key": key,
+                        "description": description,
+                        "ownerType": "PRODUCT",
+                        "type": type_name,
+                }})["metafieldDefinitionCreate"]
+                if result["userErrors"]:
+                        raise RuntimeError(json.dumps(result["userErrors"], indent=2))
+        print(f"Verified {len(METAFIELD_DEFINITIONS)} product metafield definitions")
 
 
 def build_model() -> dict:
@@ -219,6 +260,7 @@ def main() -> None:
 
     env = read_env(ENV_PATH)
     admin = ShopifyAdmin(env["store_url"], env["store_access_token"])
+    ensure_metafield_definitions(admin)
     live = admin.products()
     missing = sorted((set(model["rows"]) & (set(model["individual"]) | set(model["bundles"]))) - set(live))
     if missing:

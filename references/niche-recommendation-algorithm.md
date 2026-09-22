@@ -38,6 +38,7 @@ discovery and AOV-oriented cross-sell.
 |---|---|---|
 | `custom.bundle_handles` | list.single_line_text_field | Bundles containing this product |
 | `custom.bundle_member_handles` | list.single_line_text_field | Members of a bundle product |
+| `custom.sibling_handles` | list.single_line_text_field | Perfumes in the same bundle |
 | `custom.tester_handles` | list.single_line_text_field | Relevant 5 ml testers |
 | `custom.recommendation_handles` | list.single_line_text_field | Scored top four full-size recommendations |
 | `custom.recommendation_algorithm` | single_line_text_field | `tag-similarity-v1` |
