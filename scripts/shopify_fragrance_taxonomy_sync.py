@@ -237,7 +237,11 @@ def profile_key(title: str) -> str:
 
 
 def profile_source(row: dict[str, str]) -> str:
-    return " ".join((row.get("Tags", ""), row.get("Body (HTML)", ""), row.get("SEO Description", "")))
+    merchant_tags = ", ".join(
+        tag for tag in row.get("Tags", "").split(",")
+        if not tag.strip().lower().startswith("niche:")
+    )
+    return " ".join((merchant_tags, row.get("Body (HTML)", ""), row.get("SEO Description", "")))
 
 
 def classify(row: dict[str, str], shared_profile: str = "") -> list[str]:
